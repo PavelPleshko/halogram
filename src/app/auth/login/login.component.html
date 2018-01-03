@@ -1,0 +1,30 @@
+
+
+
+
+<div class="container">
+         <div class="status-danger alert alert-danger" *ngIf="error">
+            <p><i class="material-icons">error</i> Error:{{message}}</p>
+        </div>
+        <div class="innter-form" *ngIf="!submitted || error">
+        	<h3 class="text-center page-header">Login</h3>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmitForm(loginForm)" novalidate class="sa-innate-form">
+            <label>Email Address</label>
+            <input type="text" name="email" formControlName="email" required>
+            <label>Password</label>
+            <input type="password" name="password"  formControlName="password" required>
+            <button type="submit">Sign In</button>
+            <a href="">Forgot Password?</a><a routerLink="/register" class="float-sm-right">Don't have an account?</a>
+            </form>
+         
+            <div class="clearfix"></div>
+        </div>
+
+        <div  class="loader" *ngIf="submitted && !message">
+        	<app-preloader></app-preloader>
+        </div>
+        <div class="status-success alert alert-success" *ngIf="submitted && (message && !error)">
+        	<p><i class="material-icons">done</i>{{message}}</p>
+        </div>
+
+   </div>

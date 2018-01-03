@@ -1,0 +1,10 @@
+<div class="profiles_user_row clear_fix">
+  <div class="profiles_photo_wrap">
+    <a class="profiles_photo _online" [routerLink]="['/profile/'+user._id]"><img class="profiles_photo_img" [alt]="user.firstName" [src]="user.profile.profileImg" /></a>
+  </div>
+  <div class="profiles_user_info">
+    <div class="profiles_field profiles_field_title"><a [routerLink]="['/profile/'+user._id]">{{user.firstName}} {{user.lastName}}</a></div>
+   
+  </div>
+  <button class="btn follow-btn" [ngClass]="{'btn-outline-success':!following,'btn-danger':following}" (click)="followOrUnfollowUser(user._id)">{{following ? 'Unfollow' : 'Follow'}}</button>
+</div>

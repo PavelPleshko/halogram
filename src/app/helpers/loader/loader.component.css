@@ -1,0 +1,50 @@
+.post{
+	margin-bottom:9px;
+	margin-top: 10px;
+	margin-left: 15%;
+	width:70%;
+	background: #dedede;
+	padding:5px;
+	text-align: center;
+
+}
+.post:hover{
+	cursor: pointer;
+	background: #cec8c8;
+}
+
+.profile{
+	background: #dedede;
+	padding:5px;
+	text-align: center;
+	margin-left: 1%;
+	width: 100%;
+	border-radius: 2px;
+}
+.profile:hover{
+	cursor: pointer;
+	background: #cec8c8;
+}
+
+.file-meta{
+	margin-bottom: 5px;
+
+}
+.file-meta small{
+	font-weight: bolder;
+}
+
+.progress{
+	height:20px;
+	margin-bottom: 4px;
+}
+
+.progress-bar{
+	height:100%;
+	background: #558b2f;
+}
+
+.status-text{
+	position: absolute;
+	width:23%;
+}

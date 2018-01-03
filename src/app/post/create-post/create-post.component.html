@@ -1,0 +1,52 @@
+  <div class="create-post-wrapper">
+      
+      <form class="" [formGroup]="form">
+        <div class="">
+          <label>
+            <h6>Post title<span class="required">*</span></h6>
+            <input class="control" 
+              type="text" 
+              placeholder="Enter title" 
+              formControlName="title">
+       		<small  class="form-error-message" [@fadeInOutAnimation] *ngIf="form.get('title').hasError('required') && form.get('title').touched">
+       			Please provide the title for your post
+       		</small>
+          </label>
+        </div>
+        <div class="">
+          <div class="">
+            <h6>Description<span class="required">*</span></h6>
+          </div>
+          <div>
+            <textarea class="control" formControlName="description" placeholder="Enter description..."></textarea>
+            <small  class="form-error-message" [@fadeInOutAnimation] *ngIf="form.get('description').hasError('required') && form.get('description').touched">
+       			Please provide the description for your post
+       		</small>
+          </div>
+        </div>
+        <div class="">
+          <div>
+          	<app-loader mode="post" (changed)="updateUrl($event)" (progress)="updateProgressBar($event)" (previewChanged)="loadPreview($event)" [action]="action" [image]="changedImg"></app-loader>
+          	 <small  class="form-error-message" [@fadeInOutAnimation] *ngIf="form.get('url').hasError('required') && form.get('url').touched">
+       			Please load image before submitting!
+       		</small>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="createPost()">
+              Create post
+            </button>
+          
+          </div>
+        </div>
+      </form>
+
+    
+    </div>
+
+      <div class="img-preview-wrapper">
+      	<app-post-img-preview *ngIf="image;else info" class="img-preview" [image]="image" (uploadAction)="onUploadAction($event)">
+      		
+      	</app-post-img-preview>
+      	<ng-template #info><div class="info">Here will be displayed your photo</div></ng-template>
+      </div>

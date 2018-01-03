@@ -1,0 +1,15 @@
+
+<div class="comment">
+	<span (click)="onDeleteComment()" class="close"></span>
+	<div class="comment-header">
+	<img [src]="comment.user.profile.profileImg" class="comment-user-img">
+	<p class="username">{{comment.user.firstName}} {{comment.user.lastName}}</p>
+	</div>
+	<div class="comment-body">
+		<p>{{comment.body}}</p>
+	</div>
+	
+	<span><small class="comment-created text-muted">{{comment.createdAt | fromNow}}</small><span class="divider">|</span><small class="comment-reply" (click)="replyToComment(comment)">reply</small></span>
+	<span class="like"><i class="material-icons" (click)="likeOrUnlikeComment()">{{likedComment ? 'favorite' : 'favorite_border'}}</i><p>  {{comment.likes.length}}</p></span>
+</div>
+<app-comment-replies [replies]="comment.replies" [currentUser]="currentUser" (delete)="onDeleteReply($event)" (likeOrUnlike)="onLikeOrUnlikeReply($event)"></app-comment-replies>

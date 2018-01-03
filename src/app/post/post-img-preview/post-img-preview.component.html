@@ -1,0 +1,8 @@
+<div class="preview-img" *ngIf="image">
+	<img [src]="image">
+	<div class="btn-group controls" style="display: flex !important">
+		<button class="btn btn-warning edit-btn" (click)="editImage()"><i class="material-icons">photo_filter</i>edit</button>
+		<button class="btn approve-btn" (click)="handleImage(true)"><i class="material-icons">done</i>save</button>
+		<button class="btn cancel-btn" (click)="handleImage(false)"><i class="material-icons">not_interested</i>cancel</button>
+	</div>
+</div>

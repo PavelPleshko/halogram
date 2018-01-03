@@ -1,0 +1,54 @@
+.material-icons{
+vertical-align: middle;
+margin-right:2px;
+}
+
+nav{
+	background: #e0e0e0;
+	.navbar-brand{
+	font-family:'blacklist';
+	font-size:22pt;
+	span{
+	margin-left:5px;
+	color:gray;
+	}
+	}
+}
+
+.navbar-nav{
+	margin-left: 77%;
+
+	.reg-signin-controls{
+	position:absolute;
+	right:1%;
+	top:3%;
+	font-size:80%;
+
+	& a:hover{
+	text-decoration:none;
+	}
+	.sign-in-btn{
+		&:after{
+		content:'|';
+		position:relative;
+		padding:7px;
+		}
+	}
+	}
+	.logout{
+	width: 40px;
+height: 40px;
+position: relative;
+right: -30px;
+transition:.5s ease-in-out;
+
+&:hover{
+	cursor:pointer;
+	transform:scale(1.1);
+}
+}
+
+
+
+
+}

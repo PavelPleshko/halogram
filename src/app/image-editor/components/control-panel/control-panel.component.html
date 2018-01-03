@@ -1,0 +1,67 @@
+<div class="" [formGroup]="editForm">
+	<div class="cancel-all" (click)="cancel('all')">Clear ALL</div>
+	<div class="edit-options mb-3">
+		<p>
+      <input type="checkbox" id="resize-checkbox" formControlName="resize">
+      <label for="resize-checkbox" class="label">{{resizing ? 'Uncheck to stop resizing' : 'Turn on resizing mode'}}</label>
+      <small class="info" *ngIf="resizing">"Cancel" button returns your photo to original size</small>
+    </p>
+    <div class="btn-group" *ngIf="resizing">
+    	<button class="btn btn-success" (click)="accept('acceptResize')"><i class="material-icons mr-1">done</i>ACCEPT</button>
+		<button class="btn btn-danger" (click)="cancel('cancelResize')"><i class="material-icons mr-1">not_interested</i>CANCEL</button>
+    </div>
+	</div>
+
+	<div class="edit-options">
+		<p>
+      <input type="checkbox" id="crop-checkbox" formControlName="crop">
+      <label for="crop-checkbox" class="label">{{cropping ? 'Uncheck to stop cropping' : 'Turn on cropping mode'}}</label>
+      <small class="info" *ngIf="cropping">"Cancel" button returns your photo to original state</small>
+    </p>
+    <div class="btn-group" *ngIf="cropping">
+    	<button class="btn btn-success" (click)="accept('acceptCrop')"><i class="material-icons mr-1">done</i>ACCEPT</button>
+		<button class="btn btn-danger" (click)="cancel('cancelCrop')"><i class="material-icons mr-1">not_interested</i>CANCEL</button>
+    </div>
+	</div>
+
+<section formGroupName="filters">
+	<h4 class="filters-header">Available filters</h4>
+	<app-slider [min]="'0'" [max]="'100'" [value]="formModel.filters.contrast" [filterType]="'contrast'"
+	 formControlName="contrast">
+	</app-slider>
+
+	<app-slider [min]="'0'" [max]="'200'" [value]="formModel.filters.brightness" [filterType]="'brightness'"
+	 formControlName="brightness">
+	</app-slider>
+
+	<app-slider [min]="'0'" [max]="'200'" [value]="formModel.filters.saturate" [filterType]="'saturate'"
+	 formControlName="saturate">
+	</app-slider>
+
+<div class="edit-options">
+	<p>
+      <input type="checkbox"  id="sepia-checkbox" [value]="formModel.filters.sepia" formControlName="sepia">
+       <label for="sepia-checkbox" class="label">Sepia</label>
+    </p>
+    <p>
+      <input type="checkbox"  id="sepia2-checkbox" [value]="formModel.filters.sepia2" formControlName="sepia2">
+       <label for="sepia2-checkbox" class="label">Sepia2</label>
+    </p>
+      <p>
+      <input type="checkbox"  id="grayscale-checkbox" [value]="formModel.filters.grayscale" formControlName="grayscale">
+       <label for="grayscale-checkbox" class="label">Grayscale</label>
+    </p>
+     <p>
+      <input type="checkbox" id="invert-checkbox" [value]="formModel.filters.invert" formControlName="invert">
+       <label for="invert-checkbox" class="label">Invert</label>
+    </p>
+</div>
+
+	<app-slider [min]="'0'" [max]="'700'" [value]="formModel.filters.noise" [filterType]="'noise'"  [unit]="''"
+	 formControlName="noise">
+	</app-slider>
+
+	<app-slider [min]="'0'" [max]="'20'" [value]="formModel.filters.pixelate" [filterType]="'pixelate'" [unit]="'px'"
+	 formControlName="pixelate">
+	</app-slider>
+</section>

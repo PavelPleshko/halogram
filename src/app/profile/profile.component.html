@@ -1,0 +1,41 @@
+<div class="container p-t-2" *ngIf="currentUser">
+	<div class="row">
+		<div class="col-lg-3 col-md-4 col-xs-12">
+			<div class="card mt-4">
+			  <img class="card-img-top" src="/assets/img/profile-bg.jpg" width="100%" alt="Card image cap">
+				<div class="card-body">
+				<img [src]="imgSrc" class="img-thumbnail mb-1 ml-5" style="max-width:140px;margin-top:-70px">
+				<app-loader mode="profile" [user]="currentUser" [notAUser]="notAUser" (changed)="updateProfile($event)"></app-loader>
+				<div class="container text-center">
+				<p class="card-title mb-0 ml-2"><strong>{{currentUser.firstName}} {{currentUser.lastName}}</strong></p>
+				<a href="#"><small>{{currentUser.email}}</small></a>
+				</div>
+				</div>
+				<div *ngIf="currentUser.profile" class="card-body">
+					<div class="posts-number">
+								<small *ngIf="posts.length >0">{{posts.length}} {{posts.length> 1 ? 'posts' : 'post' }}</small>
+								<small class="text-muted" *ngIf="!posts.length">No posts yet</small>
+							</div>
+					<div class="row ml-2">
+
+						<div class="col-6">
+						
+							<small class="text-muted text-uppercase">Followers:</small>
+							<span class="h4">{{currentUser.profile.followers.length}}</span>
+						</div>
+						<div class="col-6">
+							<small class="text-muted text-uppercase">Following:</small>
+							<span class="h4">{{currentUser.profile.following.length}}</span>
+						</div>
+					</div>
+					<a [routerLink]="['/post/new']" *ngIf="!notAUser" class="btn btn-success create-post-btn">Create Post</a>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 mt-4 profile-posts">
+			<app-profile-posts [posts]="posts"></app-profile-posts>
+	</div>
+
+</div>

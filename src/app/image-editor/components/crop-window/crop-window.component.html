@@ -1,0 +1,17 @@
+<div class="overlay">
+		
+		<div class="overlay-inner" [style.top.px]='y'  
+                   [style.left.px]='x' 
+                   [style.width.px]='width'
+                   [style.height.px]='height'
+                   (mousedown)='onCropWindowPress($event)'
+                   (mousemove)='onCropWindowDrag($event)'>
+
+<div (mousedown)='onCornerClick($event, topLeftResize)' class="crop-handle crop-handle-nw"></div>
+<div (mousedown)='onCornerClick($event, topRightResize)' class="crop-handle crop-handle-ne"></div>
+<div (mousedown)='onCornerClick($event, bottomLeftResize)' class="crop-handle crop-handle-sw"></div>
+<div (mousedown)='onCornerClick($event, bottomRightResize)' class="crop-handle crop-handle-se"></div>
+
+		</div>
+		
+	</div>

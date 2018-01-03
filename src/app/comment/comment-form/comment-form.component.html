@@ -1,0 +1,12 @@
+<form class="row comment-form" name="commentForm">
+	<div class="col-md-10 col-sm-10">
+	<input type="text" name="commentBody" placeholder="Your comment here..." class="form-control" #comment_control required [(ngModel)]="body">
+</div>
+<div class="col-md-2 col-sm-2">
+	<div class="btn-group btn-group-custom">
+		<button type="button" class="btn btn-primary publish-btn" (click)="postComment(comment_control.value)">{{reply ? 'Reply' : 'Comment'}}</button>
+	<button class="btn btn-danger" (click)="cancelReply()" *ngIf="reply">Cancel</button>
+</div>
+</div>
+</form>
+

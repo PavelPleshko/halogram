@@ -1,0 +1,24 @@
+.profile-posts{
+	margin:0;
+	padding:0;
+	padding-left: 20px;
+}
+
+.create-post-btn{
+position: relative;
+left: 30%;
+margin-right: 40px;
+top: 10px;
+box-shadow: 2px 1px 6px 1px rgba(0,0,0,.6);
+background-color: #6c7866 !important;
+	&:hover{
+		box-shadow: none !important;
+		}
+}
+
+.posts-number{
+	font-size: 17pt;
+	width:100%;
+	text-align: center;
+	color: #242729;
+}

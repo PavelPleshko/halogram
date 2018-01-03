@@ -1,0 +1,115 @@
+
+.page-header{
+	margin-top:30px;
+	padding-bottom: 7px;
+}
+.form-body{
+    background:#fff;
+    padding:20px;
+}
+.login-form{
+    background:rgba(255,255,255,0.8);
+	padding:20px;
+	border-top:3px solid#3e4043;
+}
+.innter-form{
+	padding-top:20px;
+	width:45%;
+	margin-left: 25%;
+}
+.final-login li{
+	width:50%;
+}
+
+
+
+
+.social-login{
+	text-align:center;
+	font-size:12px;
+}
+.social-login p{
+	margin:15px 0;
+}
+.social-login ul{
+	margin:0;
+	padding:0;
+	list-style-type:none;
+	display: inline-flex;
+	width: 60%;
+}
+.social-login ul li{
+	width:43%;
+	float:left;
+    clear:both;
+}
+
+
+.social-login ul li a{
+	font-size:13px;
+	color:#fff;
+	text-decoration:none;
+	padding:10px 0;
+	display:block;
+}
+.social-login ul li:nth-child(1) a{
+	background:#3b5998;
+}
+.social-login ul li:nth-child(2) a{
+	background:#e74c3d;
+}
+.social-login ul li:nth-child(3) a{
+	background:#3698d9;
+}
+.sa-innate-form input[type=text], input[type=password], input[type=file], textarea, select, email{
+    font-size:13px;
+	padding:10px;
+	border:1px solid#ccc;
+	outline:none;
+	width:100%;
+	margin:8px 0;
+	
+}
+
+
+	
+	.sa-innate-form button{
+	border:1px solid#e64b3b;
+	background:#e64b3b;
+	color:#fff;
+	padding:10px 25px;
+	font-size:14px;
+	margin-top:5px;
+	border-radius: 4px;
+	box-shadow: 1px 1px 5px 1px rgba(0,0,0,.3);
+	}
+	.sa-innate-form button:hover{
+	border:1px solid#db3b2b;
+	background:#db3b2b;
+	color:#fff;
+	box-shadow: none;
+	cursor: pointer;
+	}
+    .sa-innate-form p{
+        font-size:13px;
+        padding-top:10px;
+    }
+
+    .sa-innate-form{
+    	box-shadow: 1px 1px 6px 1px rgba(0,0,0,.2);
+padding: 25px;
+border-radius:7px;
+    }
+
+
+    .status-success,.status-danger{
+    	margin-top:70px;
+    	width:45%;
+    	margin-left:25%;
+    	text-align: center;
+    }
+
+    .loader{
+    	margin-left:45%;
+    	margin-top:15%;
+    }

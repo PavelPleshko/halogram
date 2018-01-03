@@ -1,0 +1,67 @@
+
+.clear_fix {
+    display: block;
+}
+
+.clear_fix:after {
+    content: '.';
+    display: block;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.profiles_user_row:first-child {
+    border-top: none;
+}
+
+.profiles_user_row {
+    border-top: 1px solid #e7e8ec;
+    padding: 12px 0;
+    clear: both;
+    position: relative;
+}
+
+
+.profiles_photo_wrap {
+    float: left;
+    margin: 0 15px 0 0;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+}
+
+.profiles_photo_img:before, .profiles_photo_img:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+}
+
+.profiles_photo_img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #fafbfc;
+}
+
+
+
+
+.follow-btn{
+	width:120px;
+	letter-spacing: 2px;
+	position: relative;
+	top:-25px;
+	left:320px;
+}
+
+.follow-btn:hover{
+	cursor: pointer;
+}

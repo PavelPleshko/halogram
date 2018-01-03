@@ -1,0 +1,65 @@
+.modal-body img{
+	width:100%;
+}
+
+.modal-body{
+}
+
+.no-comments{
+	font-size: 12pt;
+	color:#dedede;
+	margin-left:10px;
+}
+
+.comment-section{
+	overflow-y: auto;
+	word-wrap: break-word;
+	padding-top:10px;
+}
+
+.like-dislike{
+position: absolute;
+right: 5px;
+top: 0;
+color: white;
+display: flex;
+
+div{
+	margin-right:3px;
+}
+}
+
+.like{
+	background: #19a917;
+padding: 4px;
+border-radius: 3px;
+&:hover{
+	background:#64dd17;
+	cursor:pointer;
+}
+&.disabled{
+	&:hover{
+	background: #19a917;
+	cursor:not-allowed !important;
+	}
+}
+}
+
+.dislike{
+background: #ef5350;
+padding: 4px;
+border-radius: 3px;
+&:hover{
+	background:#e53935;
+	cursor:pointer;
+}
+&.disabled{
+	&:hover{
+	background: #ef5350;
+	cursor:not-allowed !important;
+	}
+}
+
+}
+
+

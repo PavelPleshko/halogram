@@ -1,0 +1,7 @@
+
+<div class="main-wrapper">
+<div class="col-md-3 col-sm-3 card user-single" *ngFor="let user of profiles">
+	<app-profile-single [user]="user" [currentUser]="currentUser" (followOrUnfollow)="onFollowOrUnfollow($event)"></app-profile-single>
+</div>
+
+</div>

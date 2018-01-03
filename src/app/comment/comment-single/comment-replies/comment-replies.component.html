@@ -1,0 +1,3 @@
+<div *ngFor="let reply of replies">
+<app-comment-reply-single [currentUser]="currentUser" (delete)="onDeleteReply($event)" (likeOrUnlike)="onLikeOrUnlikeReply($event)" [reply]="reply"></app-comment-reply-single>
+</div>

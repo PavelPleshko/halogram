@@ -1,0 +1,60 @@
+
+.preview-img{
+	min-height:800px;
+}
+
+.preview-img img{
+	max-width:600px;
+	border:20px solid rgba(0,0,0,.08);
+}
+
+
+.cancel-btn,.approve-btn,.edit-btn{
+	width:auto;
+	appearance:none;
+	outline: none;
+	border:none;
+	vertical-align: middle;
+	text-align: center;
+	padding-right:14px;
+	padding-left:14px;
+	border-radius: 3px;
+	font-size:14pt;
+	color:white;
+box-shadow: 1px 1px 14px 1px rgba(0,0,0,.3);
+transition: .3s ease-in-out;
+}
+
+button i{
+	vertical-align: middle;
+	margin-right:3px;
+}
+
+.edit-btn{
+	background: #ffa000 !important;
+}
+.cancel-btn{
+	background: #ef5350 !important;
+}
+
+.approve-btn{
+	background: #689f38 !important;
+}
+
+.cancel-btn:hover,.approve-btn:hover,.edit-btn:hover{
+	box-shadow: 1px 1px 14px 1px rgba(0,0,0,.1);
+	cursor: pointer;
+}
+.cancel-btn:hover{
+	background: #f44336 !important;
+}
+
+.approve-btn:hover{
+	background: #558b2f !important;
+}
+.edit-btn:hover{
+	background: #ff6f00 !important;
+}
+.controls{
+	margin-top:10px;
+}

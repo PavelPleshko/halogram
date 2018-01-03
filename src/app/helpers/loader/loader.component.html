@@ -1,0 +1,19 @@
+<div *ngIf="!notAUser">
+	<input type="file" name="changePhoto" multi #input ng2FileSelect [uploader]="uploader" placeholder="Change picture" (change)="onChange($event)"  style="display: none;">
+
+<div [ngClass]="{'post':mode=='post','profile':mode=='profile'}" id="choose-img" (click)="chooseImg(input)">{{mode ==='post' ? 'Choose post image' : 'Choose profile image'}}</div>
+<div class="file-meta" *ngIf="file"><span>Filename: </span><span><small> {{file}}</small></span></div>
+
+
+
+<div *ngFor="let item of uploader.queue">
+	 <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+                                [ngStyle]="{ 'width': item.progress + '%' }">
+                                	
+                                </div>
+                                 <span class="status-text" [ngStyle]="{'color':completed ? 'white' : 'black'}">{{completed ? 'Uploaded successfully' : started ? 'Uploading now...' : 'Start uploading'}}</span>
+                        </div>
+                       
+</div>
+</div>

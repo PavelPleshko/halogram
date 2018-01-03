@@ -1,0 +1,61 @@
+<div class="main">
+<section class="gallery">
+    <div class="swiper-container" #swiper>
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" *ngFor="let preset of filterPresets; let idx = index;">
+          <div class="thumb"
+            [ngClass]="{'selected': idx === selected}"
+            (click)="select(preset.labelName,preset.fabric)">
+            <figure class="thumb__figure" [ngStyle]="{'filter':preset.filter}">
+              <div [ngStyle]="preset.overlayStyle"></div>
+              <img class="thumb__img" [src]="image">
+            </figure>
+            <p class="thumb__label">{{ preset.labelName }}</p>
+          </div>
+        </div>
+      </div>
+       </div>
+      <div class="swiper-scrollbar" #scrollbar></div>
+  </section>   
+
+<div class="control-panel">
+	<app-control-panel #c_panel (formChanged)="onFormChanged($event)" (acceptChanges)="onAcceptOrCancelChanges($event)"></app-control-panel>
+</div>
+
+<div class="resize-container" *ngIf="image">
+	<div class="action-btns">
+		<a (click)="saveImage(true)" class="export-btn">Export</a>
+		<a (click)="saveImage(false)" class="save-btn">Save</a>
+		<a (click)="cancelChanges()" class="cancel-btn">Cancel</a>
+		<a [routerLink]="['/post/new']" class="back-btn">Go back</a>
+	</div>
+	<div class="dimensions" *ngIf="isInitialized">{{currentDimensions.width}}x{{currentDimensions.height}}px</div>
+	<canvas #canvas class="canvas" id="canvas" style="display:none;"></canvas>
+	<div  [hidden]="resizeMode || cropMode || !filterMode">
+	<canvas  id="filterCanvas"></canvas>
+</div>
+
+	<div [hidden]="filterMode" #resize_subcontainer [ngClass]="{'active':resizeMode}" class="resize-subcontainer">
+		<div [hidden]="!resizeMode">
+	<span #handle_nw class="resize-handle resize-handle-nw"></span>
+	<span #handle_ne class="resize-handle resize-handle-ne"></span>
+	<span #handle_sw class="resize-handle resize-handle-sw"></span>
+	<span #handle_se class="resize-handle resize-handle-se"></span>
+</div>
+
+	<div *ngIf="cropMode">
+		<app-crop-window (cropBoxPositionChange)="updateCropBoxPosition($event)" [dimensions]="currentDimensions"></app-crop-window>
+	</div>
+	<img  #imageToResize class="resize-image" [src]="image">
+
+	
+	</div>
+	<div class="outer-loader" *ngIf="loading">
+	<div class="inner-loader">
+<app-preloader></app-preloader>
+</div>
+</div>
+</div>
+
+</div>
+	

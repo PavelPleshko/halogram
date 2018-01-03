@@ -1,0 +1,19 @@
+
+
+
+<h5 class="name">{{name | titlecase}}</h5>
+<div *ngIf="radio">
+<div *ngFor="let type of allowedValues">
+	<input 
+          type="radio"
+          name="type"
+          id="type"
+          class="type-radio btn btn-default" 
+          [attr.value]="type"
+          (blur)="onBlur(type)"
+          (change)="onChange(type)"
+          (focus)="onFocus(type)"
+          [checked]="value === type">
+	<label for="type" class="type-label">{{type}}</label>
+</div>
+</div>

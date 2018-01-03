@@ -1,0 +1,14 @@
+	<div class="reply">
+	<span (click)="onDeleteReply(reply._id,reply.comment)" class="close"></span>
+	<div class="reply-header">
+	<img [src]="reply.user.profile.profileImg" class="comment-user-img">
+	<p class="replied-to"><strong>{{reply.user.firstName}} {{reply.user.lastName}}</strong> replied to: <strong>{{reply.to.firstName}} {{reply.to.lastName}}</strong></p>
+	</div>
+
+		<span class="reply-body">{{reply.body}}</span>
+	
+	<div>
+	<span><small class="reply-created text-muted">{{reply.createdAt | fromNow}}</small></span>
+	<span class="reply-like"><i class="material-icons" (click)="likeOrUnlikeReply(reply)">{{likedReply ? 'favorite' : 'favorite_border'}}</i><p>  {{reply.likes.length}}</p></span>
+</div>
+</div>
