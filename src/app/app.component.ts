@@ -4,7 +4,7 @@ import {Router,NavigationEnd} from '@angular/router'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 	user=null;
@@ -20,13 +20,11 @@ this.authService.currentUser$.subscribe((user)=>{
 })
 this.router.events.subscribe((event)=>{
 	if (event instanceof NavigationEnd) {
-		console.log(event);
 		if(event.url ==='/edit-image'){
 			this.editor = true;
 		}else{
 			this.editor = false;
 		}
-
 	}
 })
  }

@@ -1,5 +1,5 @@
 const ENV = process.env.NODE_ENV || 'development';
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = process.env.PORT || 8080;
 const DEFAULT_HOSTNAME = '127.0.0.1';
 
 const http = require('http');
