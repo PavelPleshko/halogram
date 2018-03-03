@@ -1,7 +1,7 @@
 	<div class="reply">
 	<span (click)="onDeleteReply(reply._id,reply.comment)" class="close"></span>
 	<div class="reply-header">
-	<img [src]="reply.user.profile.profileImg" class="comment-user-img">
+	<img [src]="reply.user.profile.profileImg || '/assets/img/nophoto.jpg'" class="comment-user-img">
 	<p class="replied-to"><strong>{{reply.user.firstName}} {{reply.user.lastName}}</strong> replied to: <strong>{{reply.to.firstName}} {{reply.to.lastName}}</strong></p>
 	</div>
 

@@ -67,6 +67,31 @@ button:hover{
 	margin-left:4px;
 }
 
+.submit-success{
+text-align: center;
+margin-top: auto;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translateX(-50%) translateY(-50%);
+max-width: 400px; 
+}
+
+.submit-success span{
+	display: block;
+}
+
+.submit-success span i{
+	margin-right: 4px;
+}
+
+.submit-success a{
+color:#fff;
+cursor: pointer;
+}
+
+
+
 @keyframes pulse {
 	0%{
 		text-shadow: 1px 1px 9px rgba(200,0,0,.7);

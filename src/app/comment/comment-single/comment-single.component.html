@@ -2,7 +2,7 @@
 <div class="comment">
 	<span (click)="onDeleteComment()" class="close"></span>
 	<div class="comment-header">
-	<img [src]="comment.user.profile.profileImg" class="comment-user-img">
+	<img [src]="comment.user.profile.profileImg || '/assets/img/nophoto.jpg'" class="comment-user-img">
 	<p class="username">{{comment.user.firstName}} {{comment.user.lastName}}</p>
 	</div>
 	<div class="comment-body">

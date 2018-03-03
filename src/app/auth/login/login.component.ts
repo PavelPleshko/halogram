@@ -18,6 +18,8 @@ loginForm:FormGroup;
 submitted:boolean = false;
 error:boolean = false;
 message:string;
+state:string = 'default';
+
   constructor(public formBuilder: FormBuilder,public router:Router,
    private authService:AuthService,private route:ActivatedRoute) { }
 
@@ -39,25 +41,33 @@ message:string;
   onSubmitForm(form:FormGroup){
 
 if(!form.valid) return;
+this.changeState('processing');
 this.submitted = true;
 this.authService.signIn(form.value)
 .subscribe((response)=>{
+  console.log(response);
 	this.authService.setCurrentUser(response);
-	console.log(response);
+	
   let that = this;
   if(response['status'] != 400){
     this.error = false;
+    this.changeState('success');
     this.message = 'Authentication successful! Redirecting...';
    setTimeout(function(){
 that.router.navigateByUrl(that.returnUrl);
   },2300);
   }else{
+   this.changeState('default');
       this.error = true;
       this.submitted=false;
    this.message = response['error'].message.toLowerCase()+' Please try again';
     return;
   } 
 })
+}
+
+changeState(stateName:string){
+this.state = stateName;
 }
 
 

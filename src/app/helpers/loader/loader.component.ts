@@ -1,7 +1,7 @@
 import { Component, OnInit,Input,Output,EventEmitter,OnChanges,SimpleChanges } from '@angular/core';
 import { FileUploader, FileUploaderOptions, ParsedResponseHeaders,FileItem } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
 import {CloudinaryService} from '../../cloudinary/cloudinary.service';
+import {CloudinarySettings} from '../../cloudinary/cloudinary.settings';
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
@@ -9,6 +9,7 @@ import {CloudinaryService} from '../../cloudinary/cloudinary.service';
 })
 export class LoaderComponent implements OnInit,OnChanges {
 imgSrc:string;
+@Input() viaServer:boolean = true;
 @Input() mode;
 @Input() user;
 @Input() notAUser:boolean = false;
@@ -22,17 +23,28 @@ uploader:FileUploader;
 uploaderOptions:FileUploaderOptions;
 completed=false;
 started=false;
-  constructor(private cloudinary: Cloudinary,private cloudService:CloudinaryService){}
+cloudService;
+  constructor(){
+     this.cloudService = CloudinaryService;
+  }
  
 
   ngOnInit() {
-    if(this.user){
+    
+   
+    
+    if(this.user && this.user.profile.profileImg){
        this.userImgUrl = this.user.profile.profileImg.slice();
     }
-   
+   let url;
+   if(this.viaServer){
+     url = '/api/image/upload';
+   }else{
+     url = `https://api.cloudinary.com/v1_1/${CloudinarySettings.cloud_name}/image/upload/`;
+   }
   this.uploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/image/upload/`,
-      autoUpload: this.mode == 'profile' ? true : false,
+     url: url,
+     autoUpload: this.mode == 'profile' ? true : false,
       isHTML5: true,
       removeAfterUpload: true,
       headers: [
@@ -44,9 +56,8 @@ started=false;
     }
   	this.uploader = new FileUploader(this.uploaderOptions);
      this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-      form.append('upload_preset', this.cloudinary.config().upload_preset);
       let tags = this.mode == 'post' ? 'post_photo' : 'user_photo';
-        
+         form.append('upload_preset', CloudinarySettings.upload_preset);
       form.append('tags', tags);
       form.append('file', fileItem);
 
@@ -56,7 +67,6 @@ started=false;
       return { fileItem, form };
     }
       this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) =>{
-     
      console.log('File uploaded to Cloudinary');
      this.completed = true;
     this.changed.next(response);
@@ -87,7 +97,6 @@ getPublicId(url){
        }
   }
   requiredChunk = this.removeExtension(requiredChunk);
-  console.log(requiredChunk);
   return requiredChunk;
 }
 
@@ -100,9 +109,12 @@ removeExtension(chunk:string){
 }
 
 onChange(data){
+  
+
 	let reader = new FileReader();
 	let file = data.target.files[0];
 	this.file = file.name;
+   
 	reader.readAsDataURL(file);
   
 	reader.onload = ()=>{
@@ -113,12 +125,11 @@ onChange(data){
 
 }
 onSubmit(){
-	if(this.uploader.queue.length>=1){
+	if(this.uploader.queue.length==1){
 		this.started=true;
-		this.uploader.uploadAll();
+    this.uploader.uploadAll();
 	}else{
    let file = new File([this.convertUrlToBlob(this.image)],"newimage.jpeg");
-   console.log(file);
    this.uploader.addToQueue([file]);
    this.uploader.uploadAll();
   }
@@ -144,6 +155,7 @@ if(this.uploader.queue){
 
 chooseImg(input:HTMLInputElement){
 input.click();
+this.uploader.clearQueue();
 }
 
 

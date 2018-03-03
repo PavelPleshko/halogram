@@ -1,4 +1,4 @@
-import { Component, OnInit,OnDestroy,Output,EventEmitter,ViewChild,ViewChildren,ElementRef,AfterViewInit,Renderer2} from '@angular/core';
+import { Component, OnInit,OnDestroy,Output,EventEmitter,ViewChild,ElementRef,AfterViewInit,Renderer2} from '@angular/core';
 import {Router} from '@angular/router';
 import {ImageEditorService} from '../../services/image-editor.service';
 import {FormGroup} from '@angular/forms';
@@ -132,7 +132,6 @@ onFormChanged(form){
 this.resizeMode = form['resize'];
 this.cropMode = form['crop'];
 this.filters = form['filters'];
-console.log(form);
 if(!this.resizeMode && !this.cropMode){
 this.updatePicture(this.filters);
 }else{
@@ -141,6 +140,7 @@ this.updatePicture(this.filters);
 }
 
 updatePicture(filters){
+  if(!filters) return;
   this.filterMode = true;
   var that = this;
   Fabric.fabric.Image.fromURL(this.imageToResize.nativeElement.currentSrc,function(img){
@@ -166,35 +166,6 @@ obj.applyFilters(function(){
 });
 })
 }
-
-// getImageFiltersFromPreset(preset){
-// let imgFilters = [];
-// let filterMap={
-//   saturate:'saturate',
-//   brightness:'brightness',
-//   contrast:'contrast',
-//   noise:'noise',
-//   pixelate:'blocksize',
-// }
-
-// for(var key in preset){
-// let filter;
-// let transformedPresetName = key[0].toUpperCase() + key.slice(1);
-// if(filterMap[key]){
-//   let obj={};
-//   obj[key]=preset[key];
-//    imgFilters.push(new Fabric.fabric.Image.filters[transformedPresetName](obj));
-  
-//   console.log(transformedPresetName,preset[key]);
-// }else{
-//   imgFilters.push(new Fabric.fabric.Image.filters[transformedPresetName]());
-//   console.log(key,transformedPresetName)
-// }
-
-// }
-// console.log(imgFilters);
-// return imgFilters;
-// }
 
 getImageFiltersFromForm(filters){
   let imgFilters = [];

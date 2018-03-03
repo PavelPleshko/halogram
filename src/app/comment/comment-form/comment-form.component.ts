@@ -11,7 +11,7 @@ export class CommentFormComponent{
 @Output() postNewComment = new EventEmitter();
 @Output() postReply = new EventEmitter();
 @Output() cancelReplyEvent=new EventEmitter();
-
+body;
   constructor() { }
 
 postComment(data){

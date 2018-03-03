@@ -15,6 +15,9 @@ export class CreatePostComponent implements OnInit,OnDestroy{
 	action:boolean;
 	changedImg:string;
   subscriptions=[];
+  submitted:boolean = false;
+  uploadedToCloud:boolean = false;
+  state:string='default';
 form:FormGroup = this.fb.group({
 	title:['',Validators.required],
 	description:['',Validators.required],
@@ -29,18 +32,22 @@ form:FormGroup = this.fb.group({
       let imgSub = this.imageEditor.imageToEdit$.subscribe((img)=>{
        if(img){
          this.image = this.changedImg =  img;
+         this.form.get('url').patchValue(this.image);
        }
    });
-      console.log(this.image);
+     
       this.subscriptions.push(imgSub);
   }
 
   createPost(){
   	this.form.controls['url'].markAsTouched();
+    this.changeState('submitting');
   	if(this.form.valid){
   		let postSub = this.postService.createPost(this.form.value)
   		.subscribe(data=>console.log(data));
       this.subscriptions.push(postSub);
+      this.submitted = true;
+      this.changeState('submitted_success');
   	}
 
   }
@@ -61,7 +68,19 @@ loadPreview(data){
 onUploadAction(action){
 this.action = action.flag;
 this.changedImg = action.img;
-console.log(action);
+this.uploadedToCloud = true;
+}
+
+changeState(stateName){
+  this.state = stateName;
+  if(stateName == 'default'){
+    this.clearAll();
+  }
+}
+
+clearAll(){
+  this.form.reset();
+  this.image = null;
 }
 
 ngOnDestroy(){

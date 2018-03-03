@@ -1,19 +1,18 @@
 
 import {
   Component,
-  ElementRef,
   HostBinding,
   Input,
   Output,
-  ViewChild,
   EventEmitter,
   ViewEncapsulation,
   AfterContentInit,
   forwardRef,
+  ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import {Input as HammerInput} from 'hammerjs';
+
 
 
 
@@ -42,8 +41,6 @@ function applyCssTransform(element: HTMLElement, transformValue: string): void {
    host:{
    	'tabindex':'0',	
    	'(change)':'onChange($event)',
-   	'(slidestart)':'onSlideStart($event)',
-   	'(slideend)':'onSlideEnd()',
    	'(blur)':'onBlur()'
    }
 })
@@ -67,7 +64,6 @@ get filterTypeName():string{
 	let name = this.filterType;
 	name = name.replace(/[_]+/g,' ');
 	name = name.charAt(0).toUpperCase() + name.slice(1,name.length);
-	console.log(name);
 	return name;
 }
 
@@ -111,8 +107,6 @@ private _value:number = 0;
 @HostBinding('attr.aria-valuenow')
 get value():number{ return this._value}
 set value(v:number){
-	console.log(v);
-
 if(v == null){
 		v = 0;
 	}

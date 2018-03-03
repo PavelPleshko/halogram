@@ -1,13 +1,11 @@
     
       <div class="modal-header">
         <h4 class="modal-title">{{post.title}}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">×</span>
         </button>
       </div>
-     <div>
-     	{{comments}}
-     </div>
+    
       <div class="modal-body">
       	<div class="row">
       	<div  class="col-md-8 col-sm-8">
@@ -17,16 +15,18 @@
         </div>
     </div>
     <div #comment_section class="col-md-4 col-sm-4 comment-section">
-    	<div *ngIf="post.comments.length<1; else comments" class="no-comments">
+    	<div *ngIf="post.comments.length<1" class="no-comments">
     		No comments yet.
     	</div>
-    	<div #comments *ngFor="let comment of post.comments">
+      <div *ngIf="post.comments.length>=1">
+    	<div  *ngFor="let comment of post.comments">
     		<app-comment-single [comment]="comment" [user]="user" (likeOrUnlike)="onLikeOrUnlikeComment($event,post._id)" (deleteComment)="onDeleteComment($event,post._id)" (reply)="replyToComment($event)" (likeOrUnlikeReplyOutput)="likeOrUnlikeReply($event)"></app-comment-single>
     	</div>
-    
+    </div>
     </div>
 </div>
       </div>
+
       <div class="modal-footer">
       		<div class="col-md-8 col-sm-8">
 

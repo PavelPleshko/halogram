@@ -2,11 +2,11 @@
 
 
 
-<div class="container">
+<div class="container" [ngSwitch]="state">
          <div class="status-danger alert alert-danger" *ngIf="error">
             <p><i class="material-icons">error</i> Error:{{message}}</p>
         </div>
-        <div class="innter-form" *ngIf="!submitted || error">
+        <div class="innter-form" *ngSwitchCase="'default'">
         	<h3 class="text-center page-header">Login</h3>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmitForm(loginForm)" novalidate class="sa-innate-form">
             <label>Email Address</label>
@@ -20,10 +20,10 @@
             <div class="clearfix"></div>
         </div>
 
-        <div  class="loader" *ngIf="submitted && !message">
+        <div  class="loader" *ngSwitchCase="'processing'">
         	<app-preloader></app-preloader>
         </div>
-        <div class="status-success alert alert-success" *ngIf="submitted && (message && !error)">
+        <div class="status-success alert alert-success" *ngSwitchCase="'success'">
         	<p><i class="material-icons">done</i>{{message}}</p>
         </div>
 

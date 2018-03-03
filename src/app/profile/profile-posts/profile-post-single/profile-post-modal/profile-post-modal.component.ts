@@ -21,6 +21,7 @@ export class ProfilePostModalComponent implements AfterViewChecked{
 @ViewChild('comment_section') comment_section:ElementRef;
 @ViewChild('img_section') img_section:ElementRef;
 user:User;
+modal;
 reply = false;
 
 get liked(){
@@ -37,6 +38,7 @@ get disliked(){
   constructor(private cdr:ChangeDetectorRef,private postService:PostService,
   	private authService:AuthService,private activeModal:NgbActiveModal,
   	private commentService:CommentService){ 
+  	this.modal = this.activeModal;
   this.authService.currentUser$.subscribe((user:User)=>{
   	this.user = user;
   })
@@ -68,7 +70,10 @@ dislikePost(){
 
 postComment(body,id:string){
 	this.reply = false;
-	this.commentService.postComment(body,id).subscribe((data:Comment)=>this.post.comments.push(data));
+	this.commentService.postComment(body,id).subscribe((data:Comment)=>{
+		this.post.comments=[...this.post.comments,data];
+		this.cdr.detectChanges();
+	});
 }
 
 
@@ -79,7 +84,8 @@ onDeleteComment(id:string,postId:string){
 				return comment._id === id;
 			});
 			if(idx>=0){
-				this.post.comments.splice(idx,1);
+				this.post.comments = this.post.comments.filter(comment=>comment._id != id);
+				this.cdr.detectChanges();
 			}
 		}
 	});

@@ -42,7 +42,6 @@ this.submitted = true;
 if(!form.valid) return;
 
 this.authService.registerUser(form.value)
-.map(res=>res.json())
 .subscribe(response=>console.log(response),
   error=>console.log(error));
   }

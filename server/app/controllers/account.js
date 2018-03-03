@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const Token = mongoose.model('Token');
 
 module.exports.signin = function(req, res, next) {
-  console.log(req.body);
+ console.log(req);
+ console.log(req.body);
   passport.authenticate('local', function(err, user, info) {
     if (err || !user) {
       console.log(info);
@@ -35,7 +36,7 @@ module.exports.getAuthUser = function getAuthUser(req, res, next) {
 }
 
 module.exports.register = function(req,res,next){
-  console.log(req.body);
+  
 var userData = _.pick(req.body,'firstName','lastName','email','password');
 User.register(userData,function(err,user){
     if (err && (11000 === err.code || 11001 === err.code)) {

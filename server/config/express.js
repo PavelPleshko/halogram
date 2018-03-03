@@ -21,14 +21,9 @@ module.exports.init = function(app) {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
- // app.use(methodOverride());
   app.disable('x-powered-by');
 
-  if (config.session.type === 'mongo') {
-    sessionOpts.store = new MongoStore({
-      url: config.mongodb.uri
-    });
-  }
+
 
   app.use(session(sessionOpts));
   app.use(passport.initialize());

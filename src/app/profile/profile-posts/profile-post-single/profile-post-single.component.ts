@@ -1,5 +1,5 @@
 import { Component, OnInit,Input} from '@angular/core';
-import {NgbModal,ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProfilePostModalComponent} from './profile-post-modal/profile-post-modal.component';
 import {
     DomSanitizer,
@@ -15,8 +15,8 @@ import {Post} from '../../../shared/models/post';
 
 export class ProfilePostSingleComponent implements OnInit {
 @Input() post:Post;
-private image:SafeStyle;
-  constructor(private modalService:NgbModal,private sanitization:DomSanitizer) { }
+image:SafeStyle;
+  constructor(public modalService:NgbModal,public sanitization:DomSanitizer) { }
 
   ngOnInit() {
 this.image = this.sanitization.bypassSecurityTrustStyle(`url(${this.post.url})`);

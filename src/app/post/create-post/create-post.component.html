@@ -1,3 +1,5 @@
+  <div [ngSwitch]="state">
+    <div *ngSwitchCase="'default'">
   <div class="create-post-wrapper">
       
       <form class="" [formGroup]="form">
@@ -33,6 +35,7 @@
             <button
               type="button"
               class="btn btn-primary"
+              [disabled]="!uploadedToCloud || !form.valid"
               (click)="createPost()">
               Create post
             </button>
@@ -49,4 +52,14 @@
       		
       	</app-post-img-preview>
       	<ng-template #info><div class="info">Here will be displayed your photo</div></ng-template>
+      </div>
+    </div>
+      <div>
+</div>
+
+        <app-preloader *ngSwitchCase="'submitting'"></app-preloader>
+        <div class="container submit-success" *ngSwitchCase="'submitted_success'">
+          <span class="alert alert-success"><i class="material-icons">done_all</i>Post submitted successfully!</span>
+          <a class="btn btn-primary" (click)="changeState('default')">Create more</a>
+        </div>
       </div>

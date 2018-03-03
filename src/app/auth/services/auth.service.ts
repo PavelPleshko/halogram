@@ -25,7 +25,7 @@ return this.http.post(path,data).delay(1500).catch(err=>{
 
 
 signIn(data):Observable<User>{
-	const path =BASE_URL + 'auth/signin';
+	const path = BASE_URL+'auth/signin';
 	return this.http.post(path,data).delay(1500).catch(err=>{
 		console.log(err);
 		return Observable.of(err);
@@ -38,6 +38,7 @@ setCurrentUser(data:User){
 		this.currentUser.next(data);
 		if(data.token){
 	let token = data.token.hash;
+
 	window.localStorage.setItem('token',token);
 	}
 	}else{
@@ -48,7 +49,7 @@ setCurrentUser(data:User){
 logout(){
 	let url = BASE_URL+'auth/logout';
 	this.http.post(url,null,{headers:HEADERS}).subscribe(data=>{
-		console.log(data);
+		console.log('You logged out.Come again!');
 		if(data['success']){
 			this.router.navigateByUrl('/signin');
 			this.setCurrentUser(undefined);
