@@ -13,6 +13,11 @@ import {ControlPanelComponent} from '../control-panel/control-panel.component';
 export class ImageEditorComponent implements OnInit,AfterViewInit,OnDestroy {
 	image;
   originalImage;
+  imageBeforeChanges={
+    src:null,
+    width:0,
+    height:0
+  };
   imgOriginalData:{width:number,height:number}={width:undefined,height:undefined};
   ctx:CanvasRenderingContext2D;
   canvas;
@@ -20,7 +25,9 @@ export class ImageEditorComponent implements OnInit,AfterViewInit,OnDestroy {
   filterCanvas;
   endResize;
   resize;
-  
+  startMovingInitialPos={x:0,y:0};
+  pX=0;
+  pY=0;
   currentDimensions:{width:number,height:number}={width:undefined,height:undefined};
 
   resizeMode:boolean=false;
@@ -100,7 +107,15 @@ ngAfterViewInit(){
     this.currentDimensions=this.imgOriginalData;
     
   }
+this.startResizeListeners();
+  
+      this.canvas = document.getElementById('canvas');
+      this.filterCanvas = new Fabric.fabric.Canvas('filterCanvas');
 
+}
+
+
+startResizeListeners(){
    if(this.editmode){
      let se =  this.renderer.listen(this.handle_se.nativeElement,'mousedown',this.startResizing.bind(this));
       let ne =  this.renderer.listen(this.handle_ne.nativeElement,'mousedown',this.startResizing.bind(this));
@@ -108,11 +123,7 @@ ngAfterViewInit(){
       let nw =  this.renderer.listen(this.handle_nw.nativeElement,'mousedown',this.startResizing.bind(this));
     this.startMove = this.renderer.listen(this.imageToResize.nativeElement,'mousedown',this.startMoving.bind(this))
     }
-      this.canvas = document.getElementById('canvas');
-      this.filterCanvas = new Fabric.fabric.Canvas('filterCanvas');
-
 }
-
 
 select(name,fabricConfig){
 this.updateForm(fabricConfig);
@@ -147,8 +158,8 @@ updatePicture(filters){
     that.filterCanvas.removeListeners();
     //normalize the width and height
     while(img.height > 550 || img.width > 800){
-      img.width *= 0.95;
-      img.height *=0.95;
+      img.width *= 0.97;
+      img.height *=0.97;
     }
   that.filterCanvas.setHeight(img.height);
 that.filterCanvas.setWidth(img.width);
@@ -206,6 +217,8 @@ startMoving(e){
   e.preventDefault();
   e.stopPropagation();
   this.saveEventState(e);
+    this.startMovingInitialPos.y = e.clientY - this.container.nativeElement.style.top.replace('px','');
+    this.startMovingInitialPos.x = e.clientX - this.container.nativeElement.style.left.replace('px','');
   this.move = this.renderer.listen('document','mousemove',this.moving.bind(this));
   this.endMove = this.renderer.listen('document','mouseup',this.endMoving.bind(this));
 }
@@ -214,82 +227,91 @@ endMoving(e){
   e.preventDefault();
   this.endMove(); 
   this.move();
-  this.saveEventState(e);
+  this.saveEventState(e,true);
 }
 
 moving(e){
-  var mouse={};
   e.preventDefault();
   e.stopPropagation();
   var container = this.container.nativeElement;
-  mouse['x'] = e.clientX + document.scrollingElement.scrollLeft;
-  mouse['y'] = e.clientY + document.scrollingElement.scrollTop;
-  container.style.left = mouse['x'] - (this.eventState['mouse_x'] - this.eventState['container_left']) + 'px';
-  container.style.top = mouse['y'] - (this.eventState['mouse_y'] - this.eventState['container_top']) + 'px';
+  container.style.left = (e.clientX-this.startMovingInitialPos.x) +'px';
+  container.style.top = (e.clientY-this.startMovingInitialPos.y)+'px';
 }
 
 startResizing(e){
-  this.saveEventState(e);
+  this.saveEventState(e,true);
+  this.pX = e.clientX;
+  this.pY = e.clientY;
+  console.log(e);
   this.resize = this.renderer.listen('document','mousemove',this.resizing.bind(this));
   this.endResize = this.renderer.listen('document','mouseup',this.endResizing.bind(this));
 }
 
 
 
-saveEventState(e){
+saveEventState(e,updateEvent?){
 var container = this.container.nativeElement;
 
 this.eventState['container_width'] = container.clientWidth;
 this.eventState['container_height'] = container.clientHeight;
-this.eventState['container_left'] = container.style['left'].substr(0,-2);
+this.eventState['container_left'] = Number(container.style.left.replace('px',''));
 this.eventState['container_left2'] = +container.offsetLeft;
-this.eventState['container_top2'] = +container.offsetTop+container.offsetParent.offsetTop;
-this.eventState['container_top'] = container.style['top'].substr(0,-2);
-this.eventState['mouse_x'] = e.clientX + document.scrollingElement.scrollLeft;
-this.eventState['mouse_y'] = e.clientY + document.scrollingElement.scrollTop;
-this.eventState['evnt'] = e;
+this.eventState['container_top2'] = +container.offsetTop;
+this.eventState['container_top'] = Number(container.style.top.replace('px',''));
+this.eventState['mouse_x'] = e.clientX;
+this.eventState['mouse_y'] = e.clientY;
+if(updateEvent){
+  this.eventState['evnt'] = e;
+}
 }
 
 resizing(e){
 e.preventDefault();
 e.stopPropagation();
 var img = e.target;
-var height,width,left,top,mouse={};
 var container = this.container.nativeElement;
+var height=this.imageToResize.nativeElement.height,
+width=this.imageToResize.nativeElement.width,
+left=this.eventState['container_left'],
+top=this.eventState['container_top'],mouse={};
 var target = this.eventState['evnt'].target;
-mouse['x'] = e.clientX + document.scrollingElement.scrollLeft;
-mouse['y'] = e.clientY + document.scrollingElement.scrollTop;
-
+mouse['x'] = e.clientX;
+mouse['y'] = e.clientY;
+let offsetX = e.clientX-this.pX;
+let offsetY = e.clientY-this.pY;
       if(hasClass.call(target,'resize-handle-se')){
-      width = mouse['x'] - this.eventState['container_left2'];
-      height = mouse['y'] - this.eventState['container_top2'];
-      left = this.eventState['container_left'];
-      top = this.eventState['container_top'];
+      width += offsetX;
+      height += offsetY;     
       }
       else if(hasClass.call(target,'resize-handle-sw')){
-        width = this.eventState['container_width'] - (mouse['x'] - this.eventState['container_left2']);
-        height = mouse['y'] - this.eventState['container_top2'];
-        left = mouse['x'] - this.eventState['container_left2'];
-        top = this.eventState['container_top'];
+        width -= offsetX;
+        height+= offsetY;
+        left += offsetX;
+        
       }else if(hasClass.call(target,'resize-handle-nw')){
-    width = this.eventState['container_width'] - (mouse['x'] - this.eventState['container_left2']);
-    height = this.eventState['container_height'] - (mouse['y'] - this.eventState['container_top2']);
-    left = mouse['x'] - this.eventState['container_left2'];
-    top = mouse['y'] - this.eventState['container_top2'];
+    width -=offsetX
+    height -=offsetY;
+    left +=offsetX;
+    top +=offsetY;
   }else if(hasClass.call(target,'resize-handle-ne')){
-    width = mouse['x'] - this.eventState['container_left2'];
-    height =this.eventState['container_height'] - (mouse['y'] - this.eventState['container_height']);
-    left = this.eventState['container_left'];
-    top = mouse['y']-this.eventState['container_top2'];
+    width +=offsetX;
+    height -=offsetY;   
+    top +=offsetY;
   }
  if(width < this.limits.max_width && width > this.limits.min_width &&
   height < this.limits.max_height && height > this.limits.min_height){
     this.imageToResize.nativeElement.width =width;
   this.imageToResize.nativeElement.height = height;
+   this.imageToResize.nativeElement.style.width = width+'px';
+    this.imageToResize.nativeElement.style.height = height+'px';
     container.style.left = left + 'px';
     container.style.top = top+'px';
      this.updateCurrentDimensions(width,height);
-  }
+     }
+  
+  this.saveEventState(e,false);
+     this.pX = e.clientX;
+     this.pY = e.clientY;
 }
 
 endResizing(e){
@@ -297,19 +319,18 @@ endResizing(e){
   e.stopPropagation();
   this.endResize();
   this.resize(); //cancel event;
-  var img = this.imageToResize.nativeElement;
 }
 
-updateCurrentDimensions(width,height){
-  console.log(height);
+updateCurrentDimensions(width?,height?){
   if(!width || !height){
-    return;
-  }else{
+    width = this.imageToResize.nativeElement.width;
+    height = this.imageToResize.nativeElement.height;
+  }
     this.currentDimensions = {
       width:width,
       height:height
     }
-  }
+  
 }
 
 
@@ -332,34 +353,74 @@ switch(changes.changeType){
   var changedImg = this.transformImage('crop');
   this.imageEditor.setImage(changedImg);
   break;
+  case 'cancelCrop':
+  this.imageEditor.setImage(this.imageBeforeChanges.src);
+  this.imageToResize.nativeElement.width = this.imageBeforeChanges.width;
+  this.imageToResize.nativeElement.height = this.imageBeforeChanges.height;
+  this.imageToResize.nativeElement.style.width = this.imageBeforeChanges.width+'px';
+  this.imageToResize.nativeElement.style.height = this.imageBeforeChanges.height+'px';
+  break;
 }
+this.updateCurrentDimensions();
 }
 
 transformImage(transformType){
   this.ctx= this.canvas.getContext('2d');
-  
+    let scaleW = this.imageToResize.nativeElement.naturalWidth/this.imageToResize.nativeElement.clientWidth;
+     let scaleH = this.imageToResize.nativeElement.naturalHeight/this.imageToResize.nativeElement.clientHeight;
   let x,y,width,height;
+  this.saveImageBeforeChanges();
+
   if(transformType === 'resize'){
     x=0;
     y=0;
-    width=this.imageToResize.nativeElement.width;
-    height = this.imageToResize.nativeElement.height;
-    console.log(this.imageToResize.nativeElement,width,height);
+    width=this.imageToResize.nativeElement.clientWidth;
+    height = this.imageToResize.nativeElement.clientHeight;
     this.canvas.width = width;
     this.canvas.height = height;
+    this.canvas.style.height=height+'px';
+   this.canvas.style.width = width+'px';
     this.ctx.drawImage(this.imageToResize.nativeElement,x,y,width,height);
+  
   }else if(transformType === 'crop'){
     x = this.cropBox['x'];
     y = this.cropBox['y'];
     width = this.cropBox['width'];
     height = this.cropBox['height'];
-    this.canvas.width = width;
-    this.canvas.height = height;
-    this.ctx.drawImage(this.imageToResize.nativeElement,x,y,width,height,0,0,width,height);
+     this.canvas.width = width;
+     this.canvas.height = height;
+   this.canvas.style.height=height+'px';
+   this.canvas.style.width = width+'px';
+    this.ctx.drawImage(this.imageToResize.nativeElement,x*scaleW,y*scaleH,
+      width*scaleW,height*scaleH,0,0,width,height);
+
+    this.imageToResize.nativeElement.style.width = this.canvas.style.width;
+    this.imageToResize.nativeElement.style.height = this.canvas.style.height;
   }
-   let src = this.canvas.toDataURL('image/jpeg',1);
+   let src = this.canvas.toDataURL('image/png',1);
    return src;
 }
+
+
+saveImageBeforeChanges(){
+  let canvas = document.createElement('canvas');
+  canvas.style.display = 'none';
+     let width=this.imageToResize.nativeElement.clientWidth;
+    let height = this.imageToResize.nativeElement.clientHeight;
+    canvas.width = width;
+    canvas.height = height;
+    canvas.style.height=height+'px';
+   canvas.style.width = width+'px';
+   let ctx = canvas.getContext('2d');
+    ctx.drawImage(this.imageToResize.nativeElement,0,0,width,height);
+     let src = canvas.toDataURL('image/png',1);
+     this.imageBeforeChanges = {
+       src:src,
+       width:width,
+       height:height
+     };
+}
+
 
 updateCropBoxPosition(cropBox){
   this.cropBox = cropBox;

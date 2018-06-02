@@ -1,40 +1,40 @@
 
 <div class="container">
-	 <div class="innter-form" *ngIf="!submitted">
+	 <div class="innter-form" *ngIf="!submitted || !userForm.valid">
 <h3 class="text-center page-header">Registration</h3>
 <form [formGroup]="userForm" class="sa-innate-form" (ngSubmit)="onSubmitForm(userForm)" novalidate>
 <div class="row">
 		<div class="col-sm-12 col-md-6">
-		<label for="firstName">Enter your first name:</label>
+		<label for="firstName">Enter your first name:*</label>
 		<input type="text" class="form-control" name="firstName" formControlName="firstName" placeholder="First name">
 		<label *ngIf="userForm.controls.firstName.errors?.required && !userForm.controls.firstName.pristine" class="alert alert-danger">First name is required</label>
 		</div>
 
 		<div class="col-sm-12 col-md-6">
-		<label for="lastName">Enter your last name:</label>
+		<label for="lastName">Enter your last name:*</label>
 		<input type="text" class="form-control" name="lastName" formControlName="lastName" placeholder="Last name">
 		</div>
 </div>
 
 <div class="form-group">
-	<label for="email">Enter your e-mail address:</label>
+	<label for="email">Enter your e-mail address:*</label>
 	<input type="email" class="form-control" name="email" formControlName="email" placeholder="Your e-mail address..." >
 </div>
 
 <div class="form-group">
-	<label for="password">Enter your password:</label>
+	<label for="password">Enter your password:*</label>
 	<input type="password" class="form-control" name="password"  formControlName="password" placeholder="Your password..." required >
 </div>
 
 <div class="form-group">
-	<label for="confirmPassword">Confirm password:</label>
+	<label for="confirmPassword">Confirm password:*</label>
 	<input type="password" class="form-control" placeholder="Confirm password here" name="confirmPassword" formControlName="confirmPassword" required >
 	 <div class="alert alert-danger" *ngIf="userForm.controls.confirmPassword.errors?.MatchPassword && !userForm.controls.confirmPassword.pristine">Passwords do not match</div>
 	 <div class="alert alert-success" *ngIf="!userForm.controls.confirmPassword.errors?.MatchPassword && !userForm.controls.confirmPassword.pristine && !userForm.controls.password.errors?.MatchPassword"><i class="material-icons">done</i>Passwords match</div>
 </div>
 <div class="row">
 	<div class="col s3 right">
-		<button type="submit" class="btn btn-submit">Submit</button> <a class="float-sm-right" routerLink="/signin">Have an account?</a>
+		<button type="submit" class="btn btn-submit" [class.disabled]="!userForm.valid">Submit</button> <a class="float-sm-right" routerLink="/signin">Have an account?</a>
 	</div>
 </div>
 

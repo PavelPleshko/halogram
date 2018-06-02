@@ -1,5 +1,5 @@
-<div class="main">
-<section class="gallery">
+<div class="main row">
+<section class="gallery col-sm-8">
     <div class="swiper-container" #swiper>
       <div class="swiper-wrapper">
         <div class="swiper-slide" *ngFor="let preset of filterPresets; let idx = index;">
@@ -18,11 +18,11 @@
       <div class="swiper-scrollbar" #scrollbar></div>
   </section>   
 
-<div class="control-panel">
+<div class="control-panel col-sm-4">
 	<app-control-panel #c_panel (formChanged)="onFormChanged($event)" (acceptChanges)="onAcceptOrCancelChanges($event)"></app-control-panel>
 </div>
 
-<div class="resize-container" *ngIf="image">
+<div class="resize-container col-sm-7" *ngIf="image">
 	<div class="action-btns">
 		<a (click)="saveImage(true)" class="export-btn">Export</a>
 		<a (click)="saveImage(false)" class="save-btn">Save</a>
